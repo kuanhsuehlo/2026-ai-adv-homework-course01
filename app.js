@@ -26,6 +26,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(sessionMiddleware);
 
+// ECPay Routes
+const ecpayRoutes = require('./src/routes/ecpayRoutes');
+app.use('/api/ecpay', ecpayRoutes.apiRouter);
+app.use('/ecpay', ecpayRoutes.callbackRouter);
+
 // API Routes
 app.use('/api/auth', require('./src/routes/authRoutes'));
 app.use('/api/admin/products', require('./src/routes/adminProductRoutes'));
