@@ -1,26 +1,31 @@
-<header class="sticky top-0 z-50 bg-white shadow-sm border-b border-rose-bg">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 h-16">
-    <a href="/" class="text-xl font-bold text-rose-primary" style="font-family: 'Noto Serif TC', serif;">
-      花漾生活
+<header class="sticky top-0 z-50 bg-cream border-b border-hairline">
+  <div class="max-w-[1440px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center px-6 lg:px-16 h-[88px]">
+    <nav class="flex items-center gap-5 lg:gap-9 text-[13px] tracking-[0.15em] text-text-primary">
+      <a href="/shop" class="hover:text-rose-primary transition-colors">花卉商城</a>
+      <a href="/#story" class="hidden md:inline hover:text-rose-primary transition-colors">花藝故事</a>
+      <a href="/#subscribe" class="hidden md:inline hover:text-rose-primary transition-colors">訂閱花禮</a>
+    </nav>
+
+    <a href="/" class="flex flex-col items-center gap-0.5">
+      <span class="font-display text-xl lg:text-[26px] tracking-[0.3em] text-text-primary">FLORISTE</span>
+      <span class="text-[9px] tracking-[0.6em] text-rose-primary">花 開 有 時</span>
     </a>
 
-    <nav class="flex items-center gap-6 text-sm text-text-secondary">
-      <a href="/" class="hover:text-rose-primary transition-colors">商品列表</a>
-      <a href="/cart" class="hover:text-rose-primary transition-colors relative">
-        購物車
+    <div class="flex items-center justify-end gap-4 lg:gap-8 text-[13px] tracking-[0.15em]">
+      <a id="orders-link" href="/orders" class="hidden lg:inline text-text-primary hover:text-rose-primary transition-colors" style="display: none;">
+        我的訂單
+      </a>
+      <a href="/cart" class="text-text-primary hover:text-rose-primary transition-colors relative flex items-center gap-2">
+        購物袋
         <span
           id="cart-badge"
-          class="absolute -top-2 -right-4 bg-rose-primary text-white text-xs rounded-full w-5 h-5 items-center justify-center"
+          class="bg-rose-primary text-white text-[11px] font-caption font-semibold rounded-full w-5 h-5 items-center justify-center"
           style="display: none;"
         ></span>
       </a>
-      <a id="orders-link" href="/orders" class="hover:text-rose-primary transition-colors" style="display: none;">
-        我的訂單
-      </a>
-    </nav>
-
-    <div id="auth-nav" class="flex items-center gap-4 text-sm">
-      <a href="/login" class="bg-rose-primary text-white px-4 py-1.5 rounded-full hover:bg-rose-dark transition-colors">登入</a>
+      <div id="auth-nav" class="flex items-center gap-4">
+        <a href="/login" class="text-text-primary hover:text-rose-primary transition-colors">登入</a>
+      </div>
     </div>
   </div>
 </header>

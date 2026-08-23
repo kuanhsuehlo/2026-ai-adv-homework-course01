@@ -4,6 +4,7 @@ createApp({
   setup() {
     const activeTab = ref('login');
     const submitting = ref(false);
+    const showPassword = ref(false);
     const loginForm = ref({ email: '', password: '' });
     const registerForm = ref({ name: '', email: '', password: '' });
     const errors = ref({});
@@ -66,7 +67,7 @@ createApp({
     }
 
     return {
-      activeTab, submitting, loginForm, registerForm, errors,
+      activeTab, submitting, showPassword, loginForm, registerForm, errors,
       handleLogin, handleRegister
     };
   }

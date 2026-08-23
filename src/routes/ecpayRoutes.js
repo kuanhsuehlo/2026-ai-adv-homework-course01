@@ -48,8 +48,6 @@ apiRouter.post('/create-payment', authMiddleware, (req, res) => {
     OrderResultURL: `${BASE_URL}/ecpay/result`,
     ChoosePayment: 'ALL',
     EncryptType: 1,
-    // staging 環境自動模擬付款成功，免真實銀行帳號
-    ...(process.env.ECPAY_ENV !== 'production' && { SimulatePaid: 1 }),
   };
   params.CheckMacValue = generateCheckMacValue(params);
 

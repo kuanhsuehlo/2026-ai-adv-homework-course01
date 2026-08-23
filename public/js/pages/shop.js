@@ -1,24 +1,39 @@
-const { createApp, ref, onMounted } = Vue;
+const { createApp, ref, computed, onMounted } = Vue;
 
 createApp({
   setup() {
     const products = ref([]);
+    const pagination = ref({ total: 0, page: 1, limit: 9, totalPages: 0 });
     const loading = ref(true);
+    const sortBy = ref('latest');
     const fallbackImage = 'https://images.unsplash.com/photo-1457089328109-e5d9bd499191?w=400';
 
-    async function loadProducts() {
+    const sortedProducts = computed(function () {
+      if (sortBy.value === 'price') {
+        return products.value.slice().sort(function (a, b) { return a.price - b.price; });
+      }
+      return products.value;
+    });
+
+    async function loadProducts(page) {
+      page = page || 1;
       loading.value = true;
       try {
-        const res = await apiFetch('/api/products?page=1&limit=5');
+        const res = await apiFetch('/api/products?page=' + page + '&limit=9');
         products.value = res.data.products.map(function (p) {
           p._adding = false;
           return p;
         });
+        pagination.value = res.data.pagination;
       } catch (e) {
         products.value = [];
       } finally {
         loading.value = false;
       }
+    }
+
+    function setSort(key) {
+      sortBy.value = key;
     }
 
     function goToProduct(id) {
@@ -49,12 +64,12 @@ createApp({
     }
 
     onMounted(function () {
-      loadProducts();
+      loadProducts(1);
     });
 
     return {
-      products, loading, fallbackImage,
-      loadProducts, goToProduct, addToCart
+      products, pagination, loading, sortBy, sortedProducts, fallbackImage,
+      loadProducts, setSort, goToProduct, addToCart
     };
   }
 }).mount('#app');

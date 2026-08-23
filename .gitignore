@@ -32,6 +32,11 @@ npm-debug.log*
 # Test coverage
 coverage/
 
+# Playwright
+playwright-report/
+test-results/
+e2e/.tmp/
+
 # Temp files
 *.tmp
 *.swp

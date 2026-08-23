@@ -3,6 +3,8 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     globals: true,
+    // Scope to the API integration tests; Playwright E2E specs live in e2e/*.spec.js
+    include: ['tests/**/*.test.js'],
     fileParallelism: false,
     sequence: {
       files: [

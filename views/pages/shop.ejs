@@ -1,0 +1,122 @@
+<div id="app">
+  <!-- Banner -->
+  <section class="bg-blush">
+    <div class="flex flex-col items-center gap-3.5 px-6 py-14 lg:py-16 text-center">
+      <p class="font-caption text-[11px] font-medium tracking-[0.45em] text-rose-primary">№ 01 — ALL BOTANICALS</p>
+      <h1 class="font-serif-tc text-4xl lg:text-5xl text-text-primary">花卉商城</h1>
+      <p class="text-[13px] font-light tracking-[0.2em] text-text-secondary">每日鮮採・手工製作・全台配送</p>
+    </div>
+  </section>
+
+  <!-- Toolbar -->
+  <section class="border-b border-hairline">
+    <div class="max-w-[1440px] mx-auto flex items-center justify-between px-6 lg:px-16 py-6">
+      <p class="text-[13px] font-light tracking-[0.1em] text-text-secondary">
+        共 {{ pagination.total }} 件商品
+      </p>
+      <div class="flex items-center gap-5">
+        <span class="font-caption text-[11px] tracking-[0.25em] text-text-secondary hidden sm:inline">SORT BY</span>
+        <button
+          @click="setSort('latest')"
+          class="text-[13px] tracking-[0.15em] transition-colors cursor-pointer"
+          :class="sortBy === 'latest' ? 'text-text-primary font-medium underline underline-offset-4' : 'text-text-secondary font-light hover:text-text-primary'"
+        >
+          最新上架
+        </button>
+        <span class="w-px h-3.5 bg-hairline"></span>
+        <button
+          @click="setSort('price')"
+          class="text-[13px] tracking-[0.15em] transition-colors cursor-pointer"
+          :class="sortBy === 'price' ? 'text-text-primary font-medium underline underline-offset-4' : 'text-text-secondary font-light hover:text-text-primary'"
+        >
+          價格
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Grid -->
+  <section class="max-w-[1440px] mx-auto px-6 lg:px-16 py-14">
+    <div v-if="loading" class="flex justify-center py-20">
+      <div class="w-8 h-8 border-2 border-rose-primary border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <div v-else-if="products.length === 0" class="text-center py-20">
+      <p class="font-display text-2xl text-rose-primary mb-3">&#10048;</p>
+      <p class="text-text-secondary">目前沒有商品，請稍後再來看看</p>
+    </div>
+
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-12">
+      <div
+        v-for="product in sortedProducts"
+        :key="product.id"
+        class="cursor-pointer group flex flex-col"
+        @click="goToProduct(product.id)"
+      >
+        <div class="relative overflow-hidden h-[280px] lg:h-[320px]">
+          <img
+            :src="product.image_url || fallbackImage"
+            :alt="product.name"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            :class="product.stock <= 0 ? 'opacity-45' : ''"
+          />
+          <span
+            v-if="product.stock <= 0"
+            class="absolute top-6 left-6 bg-forest text-cream text-[11px] font-medium tracking-[0.25em] px-[18px] py-2"
+          >
+            已售完
+          </span>
+        </div>
+        <div class="flex flex-col gap-1.5 pt-[18px]">
+          <p class="font-caption text-[10px] tracking-[0.3em] text-rose-primary">FLORISTE</p>
+          <h3 class="font-serif-tc text-lg lg:text-[19px] truncate" :class="product.stock <= 0 ? 'text-text-secondary' : 'text-text-primary'">
+            {{ product.name }}
+          </h3>
+          <div class="flex items-center justify-between">
+            <p class="font-display text-lg" :class="product.stock <= 0 ? 'text-text-secondary' : 'text-text-primary'">
+              NT${{ product.price.toLocaleString() }}
+            </p>
+            <button
+              v-if="product.stock > 0"
+              @click.stop="addToCart(product)"
+              :disabled="product._adding"
+              class="text-xs tracking-[0.15em] text-text-secondary underline underline-offset-4 hover:text-rose-primary transition-colors disabled:cursor-not-allowed cursor-pointer"
+            >
+              加入購物袋
+            </button>
+            <span v-else class="text-xs tracking-[0.15em] text-text-muted">補貨通知</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div v-if="pagination.totalPages > 1" class="border-t border-hairline mt-14 pt-8 flex items-center justify-center gap-8">
+      <button
+        @click="loadProducts(pagination.page - 1)"
+        :disabled="pagination.page <= 1"
+        class="font-caption text-[13px] tracking-[0.2em] transition-colors cursor-pointer"
+        :class="pagination.page <= 1 ? 'text-text-muted cursor-not-allowed' : 'text-text-primary hover:text-rose-primary'"
+      >
+        &larr; PREV
+      </button>
+      <button
+        v-for="p in pagination.totalPages"
+        :key="p"
+        @click="loadProducts(p)"
+        class="font-display text-[15px] transition-colors cursor-pointer"
+        :class="p === pagination.page ? 'text-text-primary underline underline-offset-8' : 'text-text-muted hover:text-text-primary'"
+      >
+        {{ String(p).padStart(2, '0') }}
+      </button>
+      <button
+        @click="loadProducts(pagination.page + 1)"
+        :disabled="pagination.page >= pagination.totalPages"
+        class="font-caption text-[13px] tracking-[0.2em] transition-colors cursor-pointer"
+        :class="pagination.page >= pagination.totalPages ? 'text-text-muted cursor-not-allowed' : 'text-text-primary hover:text-rose-primary'"
+      >
+        NEXT &rarr;
+      </button>
+    </div>
+  </section>
+</div>

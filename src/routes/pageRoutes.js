@@ -19,19 +19,24 @@ function renderAdmin(res, page, locals = {}) {
 
 // Front pages
 router.get('/', function (req, res) {
-  renderFront(res, 'index', { title: '首頁', pageScript: 'index' });
+  renderFront(res, 'index', { title: '首頁', pageScript: 'index', fullBleed: true });
+});
+
+router.get('/shop', function (req, res) {
+  renderFront(res, 'shop', { title: '花卉商城', pageScript: 'shop', fullBleed: true });
 });
 
 router.get('/products/:id', function (req, res) {
   renderFront(res, 'product-detail', {
     title: '商品詳情',
     pageScript: 'product-detail',
-    productId: req.params.id
+    productId: req.params.id,
+    fullBleed: true
   });
 });
 
 router.get('/cart', function (req, res) {
-  renderFront(res, 'cart', { title: '購物車', pageScript: 'cart' });
+  renderFront(res, 'cart', { title: '購物袋', pageScript: 'cart', fullBleed: true });
 });
 
 router.get('/checkout', function (req, res) {
@@ -39,7 +44,7 @@ router.get('/checkout', function (req, res) {
 });
 
 router.get('/login', function (req, res) {
-  renderFront(res, 'login', { title: '登入', pageScript: 'login' });
+  renderFront(res, 'login', { title: '登入', pageScript: 'login', fullBleed: true });
 });
 
 router.get('/orders', function (req, res) {
