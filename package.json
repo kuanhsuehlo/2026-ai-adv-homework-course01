@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm run css:build && node server.js",
+    "dev": "node server.js",
     "dev:server": "node server.js",
     "dev:css": "npx @tailwindcss/cli -i public/css/input.css -o public/css/output.css --watch",
     "css:build": "npx @tailwindcss/cli -i public/css/input.css -o public/css/output.css --minify",
